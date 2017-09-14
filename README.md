@@ -18,6 +18,6 @@ In questo repository potete trovare il codice Python che era stato preparato pri
 
 ## Risultati
 
-Il modello proposto in questo repository ottiene dei risultati abbastanza decenti: la rete ottiene 0.51, la vittoria è stata con 0.55, tanto? poco? 
+Il modello proposto in questo repository ottiene dei risultati abbastanza decenti: la rete ottiene 0.49, la vittoria è stata con 0.55, tanto? poco? 
 
 Chiaramente non è competitivo sulla leaderboard della sfida, però in una serata + mezza giornata di sviluppi direi che può ritenersi soddisfacente.
