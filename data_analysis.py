@@ -8,7 +8,12 @@ import category_encoders as ce
 from sklearn import preprocessing
 from scipy.stats import boxcox
 
-
+# In questo script viene semplicemente effettuata
+# una analisi preliminare (al posto dei commenti ci sono delle print che spiegano i vari passaggi)
+# L'obiettivo è quello di individuare le feature più importanti e utilizzare solamente quelle per allenare
+# la rete neurale che verrà sviluppata.
+# Il metodo di valutazione dell'importanza delle feature è l'utilizzo della feature_importance
+# estratta dai modelli ad albero di ScikitLearn
 DATA_FOLDER = 'data/'
 
 print('Loading dataset...')
