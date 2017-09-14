@@ -7,14 +7,15 @@ import matplotlib.pyplot as plt
 from sklearn import preprocessing
 
 
-
+# Si selezionano solo le feature ritenute "importanti", le variabili "Xi_trans" sono le dummy
+# ricavate dalle categoriche
 important_features = ['X384', 'X3_trans', 'X4_trans', 'X5_trans', 'X134', 'X1_trans', 'X385',
        'X261', 'X0_trans', 'X27', 'X277', 'X45', 'X74', 'X230', 'X52', 'X29',
        'X68', 'X236', 'X49', 'X35', 'X343', 'X44', 'X340', 'X135', 'X199',
        'X337', 'X62', 'X380', 'X218', 'X24', 'X186', 'X140', 'X56', 'X216',
        'X349', 'X352', 'X322', 'X161', 'X156', 'X10']
 DATA_FOLDER = 'data/'
-#   0.51
+#   Questa configurazione ottiene questo risultato sulla Leaderboard di Kaggle 0.51 (Il primo dovrebbe aver ottenuto 0.6)
 n_nodes_hl1 = 1000
 n_nodes_hl2 = 1000
 n_nodes_hl3 = 1000
@@ -23,6 +24,7 @@ hm_epochs = 1000
 
 features_nr = len(important_features)
 
+# Il dataset viene caricato e si effettua un banale split test-train
 print('Loading dataset...')
 train_df = pd.read_csv(os.path.join(DATA_FOLDER,'train_transformed.csv'))
 test_df = pd.read_csv(os.path.join(DATA_FOLDER,'test_transformed.csv'))
@@ -41,6 +43,7 @@ train_y = train_y.reshape((len(train_y), 1))
 test_X = test_df_f[important_features].as_matrix()
 
 
+# Codice tensorflow che genera il modello
 x = tf.placeholder('float', [None, len(important_features)])
 y = tf.placeholder('float')
 
@@ -86,9 +89,10 @@ def train_neural_network(x):
     epochs = []
     losses = []
     last_session = 0;
+    # si avvia la sessione di tensorflow inizializzando tutte le variabili del modello
     with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
-
+        # allenamento per un certo numero di epoche della rete
         for epoch in range(hm_epochs):
             epoch_loss = 0
             for c in range(int(len(train_X_chunks))):
@@ -101,6 +105,7 @@ def train_neural_network(x):
             epochs.append(epoch)
             losses.append(epoch_loss)
         last_session = sess
+        # si salva il modello per poterlo caricare successivamente
         saver.save(sess, 'models/model.ckpt')
     print('Plotting loss...')
     plt.plot(epochs, losses, 'ro-')
@@ -109,6 +114,7 @@ def train_neural_network(x):
     plt.show()
     return prediction
 
+# Funzione che effettua la previsione
 def predict(data, model):
     # build your model (same as training)
     sess = tf.Session()
@@ -132,4 +138,5 @@ predictions = predict(test_X, model)
 test_df['y'] = predictions
 submission = test_df[['ID','y']]
 print(submission)
+# Generazione della submission
 submission.to_csv('submissions/sub.csv',index=False)
