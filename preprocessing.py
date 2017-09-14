@@ -6,6 +6,7 @@ from scipy.stats import boxcox
 
 '''
 Questo script effettua una parte del preprocessing dei dati, anche in questo caso basta leggere le print
+NON VIENE UTILIZZATO
 '''
 
 DATA_FOLDER = 'data/'
